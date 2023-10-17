@@ -1,3 +1,3 @@
-from .plugin import TemplatePlugin
+from .plugin import CpGen
 
-__all__ = ["TemplatePlugin"]
+__all__ = ["CpGen"]

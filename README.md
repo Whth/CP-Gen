@@ -1,2 +1,2 @@
-# Mieka-ChatBot-Plugin-Template
-a Template repo for Mieka-ChatBot-Plugin
+# CP-Gen
+a Mieka-ChatBot-Plugin that allows to generate meme couple string
