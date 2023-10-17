@@ -64,6 +64,7 @@ class CpGen(AbstractPlugin):
         tree = NameSpaceNode(
             name=CMD.ROOT,
             help_message="Generate couple messages",
+            required_permissions=req_perm,
             children_node=[
                 ExecutableNode(
                     name=CMD.SIZE,
@@ -72,17 +73,17 @@ class CpGen(AbstractPlugin):
                 ),
                 ExecutableNode(
                     name=CMD.MAKE,
-                    help_message="Generate couple messages",
+                    help_message=manager.make_meme_string.__doc__,
                     source=manager.make_meme_string,
                 ),
                 ExecutableNode(
                     name=CMD.ADD,
-                    help_message="add a template",
+                    help_message=manager.add_template.__doc__,
                     source=manager.add_template,
                 ),
                 ExecutableNode(
                     name=CMD.DELETE,
-                    help_message="delete a template",
+                    help_message=manager.remove_template.__doc__,
                     source=manager.remove_template,
                 ),
             ],
