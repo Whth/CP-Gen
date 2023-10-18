@@ -1,5 +1,6 @@
 import os
 
+from modules.file_manager import get_pwd
 from modules.plugin_base import AbstractPlugin
 
 
@@ -11,12 +12,13 @@ class CMD:
     DELETE = "del"
 
 
-class Config:
+class CpGen(AbstractPlugin):
     TEMPLATE_FILE_PATH = "template_file_path"
 
+    DefaultConfig = {TEMPLATE_FILE_PATH: f"{get_pwd()}/cp_data.json"}
 
-class CpGen(AbstractPlugin):
-    def _get_config_parent_dir(self) -> str:
+    @classmethod
+    def _get_config_dir(cls) -> str:
         return os.path.abspath(os.path.dirname(__file__))
 
     @classmethod
@@ -35,11 +37,6 @@ class CpGen(AbstractPlugin):
     def get_plugin_author(cls) -> str:
         return "Whth"
 
-    def __register_all_config(self):
-        self._config_registry.register_config(
-            Config.TEMPLATE_FILE_PATH, f"{self._get_config_parent_dir()}/cp_data.json"
-        )
-
     def install(self):
         from .template_managers import CpTemplateManager
         from modules.auth.resources import RequiredPermission
@@ -50,16 +47,13 @@ class CpGen(AbstractPlugin):
         from modules.auth.permissions import PermissionCode
         from modules.auth.permissions import Permission
 
-        self.__register_all_config()
-        self._config_registry.load_config()
-
         su_perm = Permission(id=PermissionCode.SuperPermission.value, name=self.get_plugin_name())
 
         req_perm: RequiredPermission = required_perm_generator(
             target_resource_name=self.get_plugin_name(), super_permissions=[su_perm]
         )
 
-        manager = CpTemplateManager(template_file_path=self._config_registry.get_config(Config.TEMPLATE_FILE_PATH))
+        manager = CpTemplateManager(template_file_path=self._config_registry.get_config(self.TEMPLATE_FILE_PATH))
 
         tree = NameSpaceNode(
             name=CMD.ROOT,
